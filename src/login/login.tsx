@@ -17,20 +17,19 @@ function Login(){
     const [ra, setRa] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [user, setUser] = useState<Person>()
+    const [user, setUser] = useState<Person>();
 
     const handleLogin = async (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
         e.preventDefault();
-        console.log("Click Login Button");
 
         try{
             const response = await Api.get("/person?Ra="+ra+"&Password="+password);
-            console.log(response.data);
             setUser(response.data);
         }catch(error){
             setError("Usuário ou senha inválidos");
         }
     }
+    
     return(user == null ?
         (<div>
             <h1>Login</h1>
@@ -40,10 +39,11 @@ function Login(){
                 <button type="submit" onClick={(e) => handleLogin(e)}>Login</button>
             </form>
             <p>{error}</p>
-        </div>) :
+        </div>) 
+        :
         (
             <div>
-                <Classes id={user.id} ra={user.ra} name={user.name}></Classes>
+                <Classes ra={user.ra} name={user.name} id={user.id}></Classes>
             </div>
         )
     );
