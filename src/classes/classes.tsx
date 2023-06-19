@@ -9,23 +9,37 @@ interface Classes{
 
 interface Class{
     classroom: string;
-    datetime: string;
+    datetimestart: string;
+    datetimeend: string;
     description: string;
     courseName: string;
     teacher: string;
 }
 
 
-let Classes: React.FC<Person> = (person : Person) => {
+const Classes: React.FC<Person> = (person : Person) => {
     const [classes, setClasses] = useState([]);
+    const [error, setError] = useState('');
 
     const getClasses = async() => {
         try{
-            const response = await Api.get("/completeclass/ra?Ra=" + person.ra);
-            console.log(response.data);
+            const response = await Api.get("/completeclass/ra?ra=" + person.ra);
             setClasses(response.data);
+            setError("");
         }catch(error){
-            console.log("erro");
+            setError("Erro ao reiniciar semestre!");
+        }
+    }
+
+    const handleCourses = async (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
+        e.preventDefault();
+
+        try{
+            const response = await Api.put("/course/ra?ra="+person.ra);
+            setError("");
+            getClasses();
+        }catch(error){
+            setError("Erro ao reiniciar semestre!");
         }
     }
 
@@ -39,14 +53,17 @@ let Classes: React.FC<Person> = (person : Person) => {
             <h1>Aulas hoje</h1>
             <GridComponent dataSource={classes} allowPaging={true} pageSettings={ pageSettings }>
             <ColumnsDirective>
-                <ColumnDirective field='Classroom' width='100' textAlign="Right"/>
-                <ColumnDirective field='Datetime' width='100'/>
-                <ColumnDirective field='Description' width='100' textAlign="Right"/>
-                <ColumnDirective field='CourseName' width='100' format="C2" textAlign="Right"/>
-                <ColumnDirective field='Teacher' width='100'/>
+                <ColumnDirective field='Classroom' headerText="Sala" width='10' textAlign="Center"/>
+                <ColumnDirective field='datetimestart' headerText="Inicio" width='10' textAlign="Center"/>
+                <ColumnDirective field='datetimeend' headerText="Termino" width='10' textAlign="Center"/>
+                <ColumnDirective field='Description' headerText="Descrição" width='10' textAlign="Center"/>
+                <ColumnDirective field='CourseName' headerText="Curso" width='10' textAlign="Center"/>
+                <ColumnDirective field='Teacher' headerText="Professor" width='10' textAlign="Center"/>
             </ColumnsDirective>
             <Inject services={[Page, Sort, Filter, Group]} />
         </GridComponent>
+        <button type="submit" onClick={(e) => handleCourses(e)}>Reiniciar semestre</button>
+        <p>{error}</p>
         </div>
     );
 };

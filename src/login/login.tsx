@@ -25,8 +25,9 @@ function Login(){
         try{
             const response = await Api.get("/person?Ra="+ra+"&Password="+password);
             setUser(response.data);
+            if(response.data == null) setError("Usuário ou senha inválidos");
         }catch(error){
-            setError("Usuário ou senha inválidos");
+            setError("Problema de conexão, tente novamente mais tarde.");
         }
     }
     
