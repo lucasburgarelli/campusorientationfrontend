@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Api } from "../services/api";
 import Classes from "../classes/classes";
 
-
 export interface Person{
     id: string;
     ra: string,
@@ -17,7 +16,14 @@ function Login(){
     const [ra, setRa] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [user, setUser] = useState<Person>();
+    const [user, setUser] = useState<Person>({
+        id: "",
+        ra: "",
+        name: "",
+        password: "",
+        courses: [],
+        idcourses: []
+    });
 
     const handleLogin = async (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
         e.preventDefault();
@@ -34,12 +40,11 @@ function Login(){
         }
     }
     
-    return(user == null ?
+    return(user.ra == "" ?
         (<div>
-            <h1>Login</h1>
             <form>
-                <input type="text" name="ra" placeholder="Usuário" required onChange={(e) => setRa(e.target.value)} />
-                <input type="password" name="password" placeholder="Senha" required onChange={(e) => setPassword(e.target.value)} />
+                <input type="text" name="ra" placeholder="Usuário" required onChange={(e) => setRa(e.target.value)} /><br></br>
+                <input type="password" name="password" placeholder="Senha" required onChange={(e) => setPassword(e.target.value)} /><br></br>
                 <button type="submit" onClick={(e) => handleLogin(e)}>Login</button>
             </form>
             <p>{error}</p>
