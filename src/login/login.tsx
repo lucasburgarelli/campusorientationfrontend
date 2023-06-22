@@ -48,7 +48,7 @@ function Login(){
     
     return(user.ra === "" ?
         (<div>
-            <form>
+            <form className="form">
                 <input type="text" className="input" name="ra" placeholder="Usuário" required onChange={(e) => setRa(e.target.value)} /><br></br>
                 <input type="password" className="input" name="password" placeholder="Senha" required onChange={(e) => setPassword(e.target.value)} /><br></br>
                 <button type="submit" className="button" onClick={(e) => handleLogin(e)}>Login</button>

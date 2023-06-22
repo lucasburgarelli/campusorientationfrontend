@@ -1,8 +1,8 @@
 import { GridComponent, ColumnsDirective, ColumnDirective, PageSettingsModel, Page, Sort, Filter, Group, Inject } from "@syncfusion/ej2-react-grids";
+import { registerLicense } from '@syncfusion/ej2-base';
 import { Person } from "../login/login";
 import { Api } from "../services/api";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { ShowError } from "../App";
 
 interface Classes{
@@ -19,7 +19,9 @@ interface Class{
 }
 
 
+
 const Classes: React.FC<Person> = (person : Person) => {
+    registerLicense('@32322e302e30UkrqnnRBuxcCOV4m7dq3ew1eNqOlOzoH8O++7Wx3ly0=');
     const [classes, setClasses] = useState([]);
 
     const getClasses = async() => {
@@ -61,7 +63,7 @@ const Classes: React.FC<Person> = (person : Person) => {
             </ColumnsDirective>
             <Inject services={[Page, Sort, Filter, Group]} />
         </GridComponent>
-        <button type="submit" onClick={(e) => handleCourses(e)}>Reiniciar semestre</button>
+        <button type="submit" className="restart" onClick={(e) => handleCourses(e)}>Reiniciar semestre</button>
         </div>
     );
 };

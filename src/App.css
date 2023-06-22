@@ -14,8 +14,9 @@
 }
 
 .App-logo {
-  height: 20vmin;
+  height: 12vmin;
   pointer-events: none;
+  margin-bottom: 4rem;
 }
 
 .App-header {
@@ -29,6 +30,20 @@
   color: white;
 }
 
+
+.form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .3rem;
+
+  width: 500px;
+  height: 300px;
+
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.30);
+}
+
 .textarea {
   resize: none;
 }
@@ -36,34 +51,23 @@
 .input,
 .textarea {
   background: none;
-  color: yellow;
+  color: black;
   font-size: 18px;
   padding: 10px 10px 10px 5px;
   display: block;
   width: 200px;
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid yellow;
-  &:focus {
+  border-bottom: 1px solid black;
+}
+
+.input:focus {
     outline: none;
   }
-  &:focus ~ label,
-  &:valid ~ label {
-    top: -14px;
-    font-size: 12px;
-    color: white;
-  }
-  &:focus ~ .bar:before {
-    width: 200px;
-  }
-}
 
-.input[type="password"] {
-  letter-spacing: 0.3em;
-}
 
 .label {
-  color: yellow;
+  color: black;
   font-size: 16px;
   font-weight: normal;
   position: absolute;
@@ -77,7 +81,9 @@
   position: relative;
   display: block;
   width: 200px;
-  &:before {
+}
+
+.bar::before {
     content: '';
     height: 2px;
     width: 0;
@@ -86,52 +92,36 @@
     background: white;
     transition: 0.7s ease all;
     left: 0%;
-  }
-}
+} 
 
-.btn {
-  background: #fff;
-  color: mix(black, yellow, 25%);
+
+.button{
   border: none;
-  padding: 10px 20px;
-  border-radius: 3px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  outline: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
-  &:hover {
-    color: mix(black, yellow, 30%);
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
-  }
-  &.btn-link {
-    background: white;
-    color: mix(white, white, 80%);
-    &:hover {
-      background: darken(white, 5%);
-      color: mix(white, white, 85%);
-    }
-  }
-  &.btn-submit {
-    background: white;
-    color: mix(white, white, 70%);
-    &:hover {
-      background: darken(white, 5%);
-      color: mix(white, white, 85%);
-    }
-  }
-  &.btn-cancel {
-    background: #eee;
-    &:hover {
-      background: darken(#eee, 5%);
-      color: mix(black, yellow, 30%);
-    }
-  }
+  font-size: 16px;
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+  display: block;
+
+  background: linear-gradient(to right, yellow 50%, white 50%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all .5s ease-out;
 }
 
-.btn-box {
-  text-align: center;
-  margin: 50px 0;
+.button:hover{
+  background-position: left bottom;
 }
 
+.restart{
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  width: 200px;
+  font-weight: 500;
+  height:  70px;
+  color : black;
+  background-color: antiquewhite;
+  cursor: pointer;
+  margin-top: 2rem;
+}
