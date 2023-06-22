@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Api } from "../services/api";
 import Classes from "../classes/classes";
+import { toast } from "react-toastify";
+import { ShowError } from "../App";
 
 export interface Person{
     id: string;
@@ -12,10 +14,8 @@ export interface Person{
 }
 
 function Login(){
-
     const [ra, setRa] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [user, setUser] = useState<Person>({
         id: "",
         ra: "",
@@ -28,26 +28,31 @@ function Login(){
     const handleLogin = async (e : React.MouseEvent<HTMLButtonElement, MouseEvent>) =>{
         e.preventDefault();
 
+        if(ra === "" || password === ""){
+            ShowError('Usuário ou senha inválidos');
+                return;
+        }
+
         try{
             const response = await Api.get("/person?Ra="+ra+"&Password="+password);
-            if(response.status == 204){
-                setError("Usuário ou senha inválidos");
+            console.log(response.status);
+            if(response.status === 204){
+                ShowError('Usuário ou senha inválidos');
                 return;
             }
             setUser(response.data);
         }catch(error){
-            setError("Problema de conexão, tente novamente mais tarde.");
+            ShowError("Problema de conexão");
         }
     }
     
-    return(user.ra == "" ?
+    return(user.ra === "" ?
         (<div>
             <form>
-                <input type="text" name="ra" placeholder="Usuário" required onChange={(e) => setRa(e.target.value)} /><br></br>
-                <input type="password" name="password" placeholder="Senha" required onChange={(e) => setPassword(e.target.value)} /><br></br>
-                <button type="submit" onClick={(e) => handleLogin(e)}>Login</button>
+                <input type="text" className="input" name="ra" placeholder="Usuário" required onChange={(e) => setRa(e.target.value)} /><br></br>
+                <input type="password" className="input" name="password" placeholder="Senha" required onChange={(e) => setPassword(e.target.value)} /><br></br>
+                <button type="submit" className="button" onClick={(e) => handleLogin(e)}>Login</button>
             </form>
-            <p>{error}</p>
         </div>) 
         :
         (

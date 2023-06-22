@@ -2,6 +2,8 @@ import { GridComponent, ColumnsDirective, ColumnDirective, PageSettingsModel, Pa
 import { Person } from "../login/login";
 import { Api } from "../services/api";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { ShowError } from "../App";
 
 interface Classes{
     classes?: Class[]
@@ -19,15 +21,13 @@ interface Class{
 
 const Classes: React.FC<Person> = (person : Person) => {
     const [classes, setClasses] = useState([]);
-    const [error, setError] = useState('');
 
     const getClasses = async() => {
         try{
             const response = await Api.get("/completeclass/ra?ra=" + person.ra);
             setClasses(response.data);
-            setError("");
         }catch(error){
-            setError("Erro ao reiniciar semestre!");
+            ShowError("Erro ao reiniciar semestre!");
         }
     }
 
@@ -36,10 +36,9 @@ const Classes: React.FC<Person> = (person : Person) => {
 
         try{
             const response = await Api.put("/course/ra?ra="+person.ra);
-            setError("");
             getClasses();
         }catch(error){
-            setError("Erro ao reiniciar semestre!");
+            ShowError("Erro ao reiniciar semestre!");
         }
     }
 
@@ -50,7 +49,7 @@ const Classes: React.FC<Person> = (person : Person) => {
     const pageSettings: PageSettingsModel = { pageSize: 6 }
     return(
         <div>
-            <h1>Aulas hoje</h1>
+            <h1 style={{color: "black"}}>Aulas</h1>
             <GridComponent dataSource={classes} allowPaging={true} pageSettings={ pageSettings }>
             <ColumnsDirective>
                 <ColumnDirective field='Classroom' headerText="Sala" width='10' textAlign="Center"/>
@@ -63,7 +62,6 @@ const Classes: React.FC<Person> = (person : Person) => {
             <Inject services={[Page, Sort, Filter, Group]} />
         </GridComponent>
         <button type="submit" onClick={(e) => handleCourses(e)}>Reiniciar semestre</button>
-        <p>{error}</p>
         </div>
     );
 };
